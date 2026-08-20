@@ -6,11 +6,13 @@ import {
   bind,
   char,
   choice,
+  eof,
   fail,
   lazy,
   lexeme,
   many,
   many1,
+  manyTill,
   map,
   optional,
   or,
@@ -81,6 +83,31 @@ describe("primitive laws", () => {
         const parser = char(expected);
         expect(runParser(parser, input)).toEqual(parser(input, 0));
       }),
+    );
+  });
+
+  it("eof succeeds without consuming exactly when position is at or past the end", () => {
+    check(
+      fc.property(
+        binaryInput,
+        fc.integer({ min: 0, max: 40 }),
+        (input, pos) => {
+          const result = eof(input, pos);
+          if (pos >= input.length) {
+            expect(result).toEqual({
+              ok: true,
+              value: undefined,
+              position: pos,
+            });
+          } else {
+            expect(result).toEqual({
+              ok: false,
+              message: `expected end of input, got ${JSON.stringify(input[pos])}`,
+              position: pos,
+            });
+          }
+        },
+      ),
     );
   });
 });
@@ -377,6 +404,76 @@ describe("repetition laws", () => {
           message: "many: inner parser succeeded without consuming input",
           position: pos,
         });
+      }),
+    );
+  });
+
+  it("manyTill(char(c), char(end)) consumes a prefix of c then the terminator", () => {
+    check(
+      fc.property(asciiUnit, asciiUnit, inputArb, (c, end, rest) => {
+        fc.pre(c !== end);
+        const n = rest.length % 8;
+        const input = c.repeat(n) + end + rest;
+        const result = runParser(manyTill(char(c), char(end)), input);
+        expect(result).toEqual({
+          ok: true,
+          value: Array.from({ length: n }, () => c),
+          position: n * c.length + end.length,
+        });
+      }),
+    );
+  });
+
+  it("manyTill prefers the end parser when it also matches the item", () => {
+    check(
+      fc.property(asciiUnit, inputArb, (c, rest) => {
+        const input = c + rest;
+        const result = runParser(manyTill(char(c), char(c)), input);
+        expect(result).toEqual({
+          ok: true,
+          value: [],
+          position: c.length,
+        });
+      }),
+    );
+  });
+
+  it("manyTill(p, eof) succeeds iff the remaining input is a run of p", () => {
+    check(
+      fc.property(asciiUnit, inputArb, (c, input) => {
+        const result = runParser(manyTill(char(c), eof), input);
+        const allMatch = [...input].every((ch) => ch === c);
+        if (allMatch) {
+          expect(result).toEqual({
+            ok: true,
+            value: Array.from({ length: input.length }, () => c),
+            position: input.length,
+          });
+        } else {
+          expect(result.ok).toBe(false);
+        }
+      }),
+    );
+  });
+
+  it("manyTill of a non-consuming success fails when end does not match", () => {
+    check(
+      fc.property(inputAndPos, ({ input, pos }) => {
+        const result = manyTill(succeed("x"), fail("no end"))(input, pos);
+        expect(result).toEqual({
+          ok: false,
+          message: "manyTill: inner parser succeeded without consuming input",
+          position: pos,
+        });
+      }),
+    );
+  });
+
+  it("manyTill(p, succeed) always succeeds with [] without consuming", () => {
+    check(
+      fc.property(inputAndPos, ({ input, pos }) => {
+        const result = manyTill(char("a"), succeed("end"))(input, pos);
+        expect(result).toEqual({ ok: true, value: [], position: pos });
       }),
     );
   });

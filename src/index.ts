@@ -271,36 +271,39 @@ export const eof: Parser<undefined> = (input, position) => {
   };
 };
 
-export const manyTill = <T,E>(parser: Parser<T>, end: Parser<E>): Parser<T[]> => {
+export const manyTill = <T, E>(
+  parser: Parser<T>,
+  end: Parser<E>,
+): Parser<T[]> => {
   return (input, position) => {
     const values: T[] = [];
     let current = position;
 
-    for(;;) {
+    for (;;) {
       const endResult = end(input, current);
-      
+
       if (endResult.ok) {
         return {
           ok: true,
           value: values,
-          position: endResult.position
-        }
+          position: endResult.position,
+        };
       }
 
       const result = parser(input, current);
       if (!result.ok) {
-        return result
+        return result;
       }
 
-      if(result.position === current) {
+      if (result.position === current) {
         return {
           ok: false,
-          message: "manyTill: inner parser succeeded without consuming iput",
-          position: current
-        }
+          message: "manyTill: inner parser succeeded without consuming input",
+          position: current,
+        };
       }
       values.push(result.value);
       current = result.position;
     }
-  }
-}
+  };
+};

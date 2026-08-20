@@ -7,12 +7,21 @@
     "value": {
       "type": "bin",
       "op": "+",
-      "left": { "type": "num", "value": 1 },
+      "left": {
+        "type": "num",
+        "value": 1
+      },
       "right": {
         "type": "bin",
         "op": "*",
-        "left": { "type": "num", "value": 2 },
-        "right": { "type": "num", "value": 3 }
+        "left": {
+          "type": "num",
+          "value": 2
+        },
+        "right": {
+          "type": "num",
+          "value": 3
+        }
       }
     },
     "position": 5

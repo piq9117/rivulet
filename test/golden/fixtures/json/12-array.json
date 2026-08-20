@@ -4,7 +4,11 @@
   "input": "[1,2,3]",
   "expected": {
     "ok": true,
-    "value": [1, 2, 3],
+    "value": [
+      1,
+      2,
+      3
+    ],
     "position": 7
   }
 }

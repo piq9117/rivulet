@@ -4,7 +4,12 @@
   "input": "  { \"a\" : [ 1 , 2 ] }  ",
   "expected": {
     "ok": true,
-    "value": { "a": [1, 2] },
+    "value": {
+      "a": [
+        1,
+        2
+      ]
+    },
     "position": 23
   }
 }
