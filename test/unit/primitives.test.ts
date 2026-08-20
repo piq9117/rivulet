@@ -12,6 +12,7 @@ describe("public API", () => {
       "chainl1",
       "char",
       "choice",
+      "eof",
       "fail",
       "lazy",
       "lexeme",
