@@ -18,6 +18,7 @@ describe("public API", () => {
       "lexeme",
       "many",
       "many1",
+      "manyTill",
       "map",
       "optional",
       "or",
