@@ -1,0 +1,10 @@
+{
+  "description": "operator without a right-hand term",
+  "parser": "expr",
+  "input": "1+",
+  "expected": {
+    "ok": false,
+    "message": "expected \"(\", reached end of input",
+    "position": 2
+  }
+}

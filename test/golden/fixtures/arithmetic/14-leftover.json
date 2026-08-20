@@ -1,0 +1,15 @@
+{
+  "description": "success leaves unparsed trailing junk",
+  "parser": "expr",
+  "input": "1+2abc",
+  "expected": {
+    "ok": true,
+    "value": {
+      "type": "bin",
+      "op": "+",
+      "left": { "type": "num", "value": 1 },
+      "right": { "type": "num", "value": 2 }
+    },
+    "position": 3
+  }
+}

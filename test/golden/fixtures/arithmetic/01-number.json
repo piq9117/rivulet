@@ -1,0 +1,10 @@
+{
+  "description": "single integer",
+  "parser": "expr",
+  "input": "42",
+  "expected": {
+    "ok": true,
+    "value": { "type": "num", "value": 42 },
+    "position": 2
+  }
+}

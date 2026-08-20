@@ -1,0 +1,10 @@
+{
+  "description": "string with escaped newline and tab",
+  "parser": "json",
+  "input": "\"hello\\n\\tworld\"",
+  "expected": {
+    "ok": true,
+    "value": "hello\n\tworld",
+    "position": 16
+  }
+}

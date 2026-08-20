@@ -1,0 +1,10 @@
+{
+  "description": "string with escaped quotes",
+  "parser": "json",
+  "input": "\"say \\\"hi\\\"\"",
+  "expected": {
+    "ok": true,
+    "value": "say \"hi\"",
+    "position": 12
+  }
+}

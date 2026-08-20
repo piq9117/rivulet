@@ -1,0 +1,10 @@
+{
+  "description": "unclosed parenthesis",
+  "parser": "expr",
+  "input": "(1+2",
+  "expected": {
+    "ok": false,
+    "message": "expected \")\", reached end of input",
+    "position": 4
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "description": "null",
+  "parser": "json",
+  "input": "null",
+  "expected": {
+    "ok": true,
+    "value": null,
+    "position": 4
+  }
+}

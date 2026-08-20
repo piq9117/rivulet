@@ -1,0 +1,10 @@
+{
+  "description": "empty parentheses are not a factor",
+  "parser": "expr",
+  "input": "()",
+  "expected": {
+    "ok": false,
+    "message": "expected \"(\", got \")\"",
+    "position": 1
+  }
+}

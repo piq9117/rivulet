@@ -1,0 +1,10 @@
+{
+  "description": "leading zeros are accepted and Number()-coerced",
+  "parser": "expr",
+  "input": "007",
+  "expected": {
+    "ok": true,
+    "value": { "type": "num", "value": 7 },
+    "position": 3
+  }
+}

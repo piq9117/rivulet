@@ -1,0 +1,10 @@
+{
+  "description": "true with trailing junk is a success at the keyword",
+  "parser": "json",
+  "input": "truexyz",
+  "expected": {
+    "ok": true,
+    "value": true,
+    "position": 4
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "description": "string with a non-ASCII code unit",
+  "parser": "json",
+  "input": "\"café\"",
+  "expected": {
+    "ok": true,
+    "value": "café",
+    "position": 6
+  }
+}

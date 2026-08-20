@@ -1,0 +1,10 @@
+{
+  "description": "unclosed array reports the missing bracket",
+  "parser": "jsonArray",
+  "input": "[1",
+  "expected": {
+    "ok": false,
+    "message": "expected \"]\", reached end of input",
+    "position": 2
+  }
+}
