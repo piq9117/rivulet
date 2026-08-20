@@ -1,0 +1,10 @@
+{
+  "description": "zero",
+  "parser": "expr",
+  "input": "0",
+  "expected": {
+    "ok": true,
+    "value": { "type": "num", "value": 0 },
+    "position": 1
+  }
+}

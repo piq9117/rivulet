@@ -1,0 +1,10 @@
+{
+  "description": "unexpected character at the start of a value",
+  "parser": "json",
+  "input": "x",
+  "expected": {
+    "ok": false,
+    "message": "expected json value, got \"x\"",
+    "position": 0
+  }
+}

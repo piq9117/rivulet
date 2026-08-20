@@ -1,0 +1,10 @@
+{
+  "description": "negative integer",
+  "parser": "json",
+  "input": "-42",
+  "expected": {
+    "ok": true,
+    "value": -42,
+    "position": 3
+  }
+}

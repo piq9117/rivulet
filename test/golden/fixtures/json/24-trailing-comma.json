@@ -1,0 +1,10 @@
+{
+  "description": "trailing comma in an array is rejected",
+  "parser": "jsonArray",
+  "input": "[1,]",
+  "expected": {
+    "ok": false,
+    "message": "expected \"]\", got \",\"",
+    "position": 2
+  }
+}

@@ -19,9 +19,12 @@
     "build:dev": "tsc --noEmit",
     "prepublishOnly": "npm run build",
     "prepare": "npm run build",
-    "test": "vitest"
+    "test": "vitest",
+    "test:run": "vitest run",
+    "golden:update": "GOLDEN_UPDATE=1 vitest run test/golden"
   },
   "devDependencies": {
+    "fast-check": "^4.9.0",
     "typescript": "5.9.3",
     "vitest": "^4.1.11"
   }

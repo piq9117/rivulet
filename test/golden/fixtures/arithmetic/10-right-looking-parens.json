@@ -1,0 +1,20 @@
+{
+  "description": "parentheses can group a right-looking addition",
+  "parser": "expr",
+  "input": "1+(2+3)",
+  "expected": {
+    "ok": true,
+    "value": {
+      "type": "bin",
+      "op": "+",
+      "left": { "type": "num", "value": 1 },
+      "right": {
+        "type": "bin",
+        "op": "+",
+        "left": { "type": "num", "value": 2 },
+        "right": { "type": "num", "value": 3 }
+      }
+    },
+    "position": 7
+  }
+}

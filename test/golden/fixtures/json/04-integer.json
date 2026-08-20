@@ -1,0 +1,10 @@
+{
+  "description": "positive integer",
+  "parser": "json",
+  "input": "123",
+  "expected": {
+    "ok": true,
+    "value": 123,
+    "position": 3
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "description": "empty input is not an expression",
+  "parser": "expr",
+  "input": "",
+  "expected": {
+    "ok": false,
+    "message": "expected \"(\", reached end of input",
+    "position": 0
+  }
+}

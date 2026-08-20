@@ -1,0 +1,12 @@
+{
+  "description": "object containing an array and a nested object",
+  "parser": "json",
+  "input": "{\"xs\":[true,null,{\"k\":\"v\"}]}",
+  "expected": {
+    "ok": true,
+    "value": {
+      "xs": [true, null, { "k": "v" }]
+    },
+    "position": 28
+  }
+}

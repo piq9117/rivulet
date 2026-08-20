@@ -17,9 +17,9 @@ export type Parser<T> = (input: string, position: number) => ParseResult<T>;
 export const runParser = <T>(
   parser: Parser<T>,
   source: string,
-): ParseResult<T>  => {
+): ParseResult<T> => {
   return parser(source, 0);
-}
+};
 
 export const succeed = <T>(value: T): Parser<T> => {
   return (_input, position) => ({
@@ -27,7 +27,7 @@ export const succeed = <T>(value: T): Parser<T> => {
     value,
     position,
   });
-}
+};
 
 export const fail = <T>(message: string): Parser<T> => {
   return (_input, position) => ({
@@ -35,7 +35,7 @@ export const fail = <T>(message: string): Parser<T> => {
     message,
     position,
   });
-}
+};
 
 export const satisfy = (
   predicate: (char: string) => boolean,

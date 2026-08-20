@@ -1,0 +1,10 @@
+{
+  "description": "decimal number",
+  "parser": "json",
+  "input": "3.14",
+  "expected": {
+    "ok": true,
+    "value": 3.14,
+    "position": 4
+  }
+}

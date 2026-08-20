@@ -1,0 +1,10 @@
+{
+  "description": "empty input is not JSON",
+  "parser": "json",
+  "input": "",
+  "expected": {
+    "ok": false,
+    "message": "expected json value, got end of input",
+    "position": 0
+  }
+}

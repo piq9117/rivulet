@@ -1,0 +1,15 @@
+{
+  "description": "addition of two numbers",
+  "parser": "expr",
+  "input": "1+2",
+  "expected": {
+    "ok": true,
+    "value": {
+      "type": "bin",
+      "op": "+",
+      "left": { "type": "num", "value": 1 },
+      "right": { "type": "num", "value": 2 }
+    },
+    "position": 3
+  }
+}

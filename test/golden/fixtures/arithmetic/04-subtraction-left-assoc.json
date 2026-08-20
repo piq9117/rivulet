@@ -1,0 +1,20 @@
+{
+  "description": "subtraction is left-associative",
+  "parser": "expr",
+  "input": "10-3-2",
+  "expected": {
+    "ok": true,
+    "value": {
+      "type": "bin",
+      "op": "-",
+      "left": {
+        "type": "bin",
+        "op": "-",
+        "left": { "type": "num", "value": 10 },
+        "right": { "type": "num", "value": 3 }
+      },
+      "right": { "type": "num", "value": 2 }
+    },
+    "position": 6
+  }
+}

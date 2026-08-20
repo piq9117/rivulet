@@ -1,0 +1,10 @@
+{
+  "description": "object with one numeric field",
+  "parser": "json",
+  "input": "{\"a\":1}",
+  "expected": {
+    "ok": true,
+    "value": { "a": 1 },
+    "position": 7
+  }
+}

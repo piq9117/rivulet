@@ -1,0 +1,20 @@
+{
+  "description": "multiplication is left-associative",
+  "parser": "expr",
+  "input": "2*3*4",
+  "expected": {
+    "ok": true,
+    "value": {
+      "type": "bin",
+      "op": "*",
+      "left": {
+        "type": "bin",
+        "op": "*",
+        "left": { "type": "num", "value": 2 },
+        "right": { "type": "num", "value": 3 }
+      },
+      "right": { "type": "num", "value": 4 }
+    },
+    "position": 5
+  }
+}
