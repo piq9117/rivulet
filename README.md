@@ -1,2 +1,2 @@
 # rivulet
-parser combinators
+A parser combinator library

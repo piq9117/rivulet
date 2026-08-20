@@ -1,0 +1,28 @@
+{
+  "name": "rivulet",
+  "version": "0.0.1",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "build:dev": "tsc --noEmit",
+    "prepublishOnly": "npm run build",
+    "prepare": "npm run build",
+    "test": "vitest"
+  },
+  "devDependencies": {
+    "typescript": "5.9.3",
+    "vitest": "^4.1.11"
+  }
+}
