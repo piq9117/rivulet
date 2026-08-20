@@ -10,10 +10,19 @@
       "left": {
         "type": "bin",
         "op": "*",
-        "left": { "type": "num", "value": 2 },
-        "right": { "type": "num", "value": 3 }
+        "left": {
+          "type": "num",
+          "value": 2
+        },
+        "right": {
+          "type": "num",
+          "value": 3
+        }
       },
-      "right": { "type": "num", "value": 4 }
+      "right": {
+        "type": "num",
+        "value": 4
+      }
     },
     "position": 5
   }

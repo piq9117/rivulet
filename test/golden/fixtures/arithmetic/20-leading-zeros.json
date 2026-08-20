@@ -4,7 +4,10 @@
   "input": "007",
   "expected": {
     "ok": true,
-    "value": { "type": "num", "value": 7 },
+    "value": {
+      "type": "num",
+      "value": 7
+    },
     "position": 3
   }
 }

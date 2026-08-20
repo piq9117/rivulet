@@ -4,7 +4,10 @@
   "input": "((((1))))",
   "expected": {
     "ok": true,
-    "value": { "type": "num", "value": 1 },
+    "value": {
+      "type": "num",
+      "value": 1
+    },
     "position": 9
   }
 }

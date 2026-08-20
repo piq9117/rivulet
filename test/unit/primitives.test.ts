@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { char, fail, runParser, satisfy, succeed } from "../../src/index";
+import { char, eof, fail, runParser, satisfy, succeed } from "../../src/index";
 import { err, expectErr, expectOk, ok } from "../helpers";
 
 describe("public API", () => {
@@ -18,6 +18,7 @@ describe("public API", () => {
       "lexeme",
       "many",
       "many1",
+      "manyTill",
       "map",
       "optional",
       "or",
@@ -169,5 +170,34 @@ describe("char", () => {
 
   it("parses from a non-zero offset", () => {
     expect(char("b")("abc", 1)).toEqual(ok("b", 2));
+  });
+});
+
+describe("eof", () => {
+  it("succeeds at the end of input without consuming", () => {
+    expectOk(runParser(eof, ""), undefined, 0);
+    expect(eof("abc", 3)).toEqual(ok(undefined, 3));
+  });
+
+  it("succeeds when the starting position is past the end", () => {
+    expect(eof("hi", 5)).toEqual(ok(undefined, 5));
+  });
+
+  it("fails when input remains, without consuming it", () => {
+    expectErr(runParser(eof, "abc"), 'expected end of input, got "a"', 0);
+    expect(eof("abc", 1)).toEqual(err('expected end of input, got "b"', 1));
+  });
+
+  it.each([
+    ["", ok(undefined, 0)],
+    ["a", err('expected end of input, got "a"', 0)],
+    ["abc", err('expected end of input, got "a"', 0)],
+  ] as const)("eof on %j", (input, expected) => {
+    expect(runParser(eof, input)).toEqual(expected);
+  });
+
+  it("JSON.stringifies the unexpected character in the error", () => {
+    expectErr(runParser(eof, "\n"), 'expected end of input, got "\\n"', 0);
+    expectErr(runParser(eof, '"'), 'expected end of input, got "\\""', 0);
   });
 });

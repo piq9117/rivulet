@@ -4,7 +4,9 @@
   "input": "{\"a\":1}",
   "expected": {
     "ok": true,
-    "value": { "a": 1 },
+    "value": {
+      "a": 1
+    },
     "position": 7
   }
 }

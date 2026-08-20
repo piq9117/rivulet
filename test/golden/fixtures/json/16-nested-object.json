@@ -5,7 +5,13 @@
   "expected": {
     "ok": true,
     "value": {
-      "xs": [true, null, { "k": "v" }]
+      "xs": [
+        true,
+        null,
+        {
+          "k": "v"
+        }
+      ]
     },
     "position": 28
   }
