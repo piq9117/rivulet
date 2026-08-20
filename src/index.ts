@@ -255,3 +255,18 @@ export const lazy = <T>(factory: () => Parser<T>): Parser<T> => {
     return cached(input, position);
   };
 };
+
+export const eof: Parser<undefined> = (input, position) => {
+  if (position < input.length) {
+    return {
+      ok: false,
+      message: `expected end of input, got ${JSON.stringify(input[position])}`,
+      position,
+    };
+  }
+  return {
+    ok: true,
+    value: undefined,
+    position,
+  };
+};
