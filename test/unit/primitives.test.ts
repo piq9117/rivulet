@@ -24,6 +24,7 @@ describe("public API", () => {
       "or",
       "runParser",
       "satisfy",
+      "sepBy",
       "skipThen",
       "succeed",
       "whitespace",

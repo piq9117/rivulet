@@ -13,6 +13,7 @@ import {
   or,
   type Parser,
   satisfy,
+  sepBy,
   skipThen,
   succeed,
   whitespace,
@@ -165,15 +166,6 @@ export const jsonValue: Parser<Json> = lazy(() =>
 
 const comma = lexeme(char(","));
 const colon = lexeme(char(":"));
-
-function sepBy<T>(item: Parser<T>, sep: Parser<unknown>): Parser<T[]> {
-  return or(
-    bind(item, (first) =>
-      map(many(skipThen(sep, item)), (rest) => [first, ...rest]),
-    ),
-    succeed([]),
-  );
-}
 
 export const jsonArray: Parser<Json> = between(
   lexeme(char("[")),
