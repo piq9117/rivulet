@@ -12,6 +12,7 @@ import {
   or,
   runParser,
   satisfy,
+  sepBy,
   skipThen,
   succeed,
 } from "../../src/index";
@@ -198,5 +199,86 @@ describe("manyTill", () => {
       "expected any, reached end of input",
       5,
     );
+  });
+});
+
+describe("sepBy", () => {
+  const as = sepBy(char("a"), char(","));
+
+  it("succeeds with an empty array when the item parser fails immediately", () => {
+    expectOk(runParser(as, ""), [], 0);
+    expectOk(runParser(as, "bbb"), [], 0);
+  });
+
+  it("parses a single item with no separator", () => {
+    expectOk(runParser(as, "a"), ["a"], 1);
+    expectOk(runParser(as, "ax"), ["a"], 1);
+  });
+
+  it("parses items separated by the separator", () => {
+    expectOk(runParser(as, "a,a"), ["a", "a"], 3);
+    expectOk(runParser(as, "a,a,a"), ["a", "a", "a"], 5);
+  });
+
+  it("does not consume a trailing separator", () => {
+    expectOk(runParser(as, "a,"), ["a"], 1);
+    expectOk(runParser(as, "a,a,"), ["a", "a"], 3);
+  });
+
+  it("stops before a separator that is not followed by an item", () => {
+    expectOk(runParser(as, "a,b"), ["a"], 1);
+    expectOk(runParser(as, "a,a,x"), ["a", "a"], 3);
+  });
+
+  it("leaves the remaining input unconsumed", () => {
+    const result = runParser(as, "a,aX");
+    expectOk(result, ["a", "a"], 3);
+  });
+
+  it("parses from a non-zero offset", () => {
+    expect(as("xxa,a", 2)).toEqual({
+      ok: true,
+      value: ["a", "a"],
+      position: 5,
+    });
+  });
+
+  it("discards separator values", () => {
+    const parser = sepBy(
+      char("a"),
+      map(char(","), () => "comma"),
+    );
+    expectOk(runParser(parser, "a,a,a"), ["a", "a", "a"], 5);
+  });
+
+  it("parses comma-separated digits", () => {
+    const digit = satisfy((ch) => ch >= "0" && ch <= "9", "digit");
+    const csv = sepBy(digit, char(","));
+    expectOk(runParser(csv, ""), [], 0);
+    expectOk(runParser(csv, "7"), ["7"], 1);
+    expectOk(runParser(csv, "1,2,3"), ["1", "2", "3"], 5);
+    expectOk(runParser(csv, "1,2,3,"), ["1", "2", "3"], 5);
+  });
+
+  it("is or of one item plus many(skipThen(sep, item)), else empty", () => {
+    const unfolded = or(
+      bind(char("a"), (first) =>
+        map(many(skipThen(char(","), char("a"))), (rest) => [first, ...rest]),
+      ),
+      succeed([]),
+    );
+    equivalent(as, unfolded, "a,a,a");
+    equivalent(as, unfolded, "a,");
+    equivalent(as, unfolded, "b");
+    equivalent(as, unfolded, "");
+  });
+
+  it("backtracks to an empty list if collecting the rest fails without consuming", () => {
+    expectOk(runParser(sepBy(succeed("x"), succeed(",")), "abc"), [], 0);
+  });
+
+  it("backtracks to an empty list if a later iteration stops consuming", () => {
+    const optionalA = optional(char("a"));
+    expectOk(runParser(sepBy(optionalA, succeed(",")), "aa"), [], 0);
   });
 });

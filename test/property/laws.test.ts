@@ -19,6 +19,7 @@ import {
   type Parser,
   runParser,
   satisfy,
+  sepBy,
   skipThen,
   succeed,
   whitespace,
@@ -474,6 +475,60 @@ describe("repetition laws", () => {
       fc.property(inputAndPos, ({ input, pos }) => {
         const result = manyTill(char("a"), succeed("end"))(input, pos);
         expect(result).toEqual({ ok: true, value: [], position: pos });
+      }),
+    );
+  });
+
+  it("sepBy(char(c), char(sep)) parses a run of c separated by sep", () => {
+    check(
+      fc.property(asciiUnit, asciiUnit, inputArb, (c, sep, rest) => {
+        fc.pre(c !== sep);
+        fc.pre(!rest.startsWith(c) && !rest.startsWith(sep));
+        const n = rest.length % 8;
+        const items = Array.from({ length: n }, () => c);
+        const input = items.join(sep) + rest;
+        const result = runParser(sepBy(char(c), char(sep)), input);
+        expect(result).toEqual({
+          ok: true,
+          value: items,
+          position: n === 0 ? 0 : n * c.length + (n - 1) * sep.length,
+        });
+      }),
+    );
+  });
+
+  it("sepBy does not consume a trailing separator", () => {
+    check(
+      fc.property(asciiUnit, asciiUnit, inputArb, (c, sep, rest) => {
+        fc.pre(c !== sep);
+        const n = 1 + (rest.length % 7);
+        const items = Array.from({ length: n }, () => c);
+        const input = items.join(sep) + sep;
+        const result = runParser(sepBy(char(c), char(sep)), input);
+        expect(result).toEqual({
+          ok: true,
+          value: items,
+          position: n * c.length + (n - 1) * sep.length,
+        });
+      }),
+    );
+  });
+
+  it("sepBy yields [] when the first item does not match", () => {
+    check(
+      fc.property(asciiUnit, asciiUnit, inputArb, (c, sep, input) => {
+        fc.pre(!input.startsWith(c));
+        const result = runParser(sepBy(char(c), char(sep)), input);
+        expect(result).toEqual({ ok: true, value: [], position: 0 });
+      }),
+    );
+  });
+
+  it("sepBy of consuming char parsers always succeeds", () => {
+    check(
+      fc.property(asciiUnit, asciiUnit, inputArb, (c, sep, input) => {
+        const result = runParser(sepBy(char(c), char(sep)), input);
+        expect(result.ok).toBe(true);
       }),
     );
   });
