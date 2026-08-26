@@ -306,7 +306,7 @@ export const manyTill = <T, E>(
       current = result.position;
     }
   };
-}
+};
 
 export const sepBy = <T, S>(
   parser: Parser<T>,
