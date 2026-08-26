@@ -94,8 +94,12 @@ export function evalExpr(tree: Expr): number {
       return left - right;
     case "*":
       return left * right;
-    case "/":
+    case "/": {
+      if (right === 0) {
+        throw new Error("Division by zero");
+      }
       return left / right;
+    }
   }
 }
 
