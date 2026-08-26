@@ -24,6 +24,7 @@
     "golden:update": "GOLDEN_UPDATE=1 vitest run test/golden"
   },
   "devDependencies": {
+    "@types/node": "^26.3.0",
     "fast-check": "^4.9.0",
     "typedoc": "^0.28.20",
     "typescript": "5.9.3",
