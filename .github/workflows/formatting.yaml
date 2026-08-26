@@ -1,0 +1,24 @@
+name: Formatting
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  formatting:
+    name: Formatting
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: cachix/install-nix-action@v31
+        with:
+          github_access_token: ${{ secrets.GITHUB_TOKEN }}
+          nix_path: nixpkgs=channel:nixos-unstable
+          extra_nix_config: |
+            substituters = https://nix-cache-piq9117.nyc3.cdn.digitaloceanspaces.com https://cache.nixos.org/ 
+            trusted-public-keys = nix-cache-piq9117:8DAGzkp4auED3kD0b5ahCOYyXwcmsq9xpTCshlGai50= cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= 
+      - name: Check Formatting
+        run: |
+          nix run .#check-formatting -- -v --no-cache
+
