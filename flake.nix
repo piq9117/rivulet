@@ -9,6 +9,31 @@
       });
     in
     {
+      packages = forAllSystems (system:
+        let
+          pkgs = nixpkgsFor.${system};
+        in
+        {
+          check-formatting = pkgs.writeShellApplication {
+            name = "check-formatting";
+            runtimeInputs = with pkgs; [
+              nixpkgs-fmt
+              biome
+              treefmt
+            ];
+            text = ''
+              ${pkgs.treefmt}/bin/treefmt --version
+              ${pkgs.treefmt}/bin/treefmt
+
+              if [[ -n "$(git diff --stat)" ]]; then
+                git status
+                echo "FAIL: found some changes"
+                git diff
+                exit 1
+              fi
+            '';
+          };
+        });
       devShells = forAllSystems (system:
         let
           pkgs = nixpkgsFor.${system};
